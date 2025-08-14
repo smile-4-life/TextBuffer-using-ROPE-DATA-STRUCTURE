@@ -30,6 +30,25 @@ private:
         Node();
         explicit Node(const string& s);
         bool isLeaf() const;
+    
+    public:
+        friend class Rope;
+
+        // Getters for private members
+        Node* getLeft() const { return left; }
+        Node* getRight() const { return right; }
+        const string& getData() const { return data; }
+        int getWeight() const { return weight; }
+        int getHeight() const { return height; }
+        BalanceFactor getBalance() const { return balance;} 
+        
+        //setter
+        void setLeft(Node* l) { left = l; }
+        void setRight(Node* r) { right = r; }
+        void setData(const string& d) { data = d; }
+        void setWeight(int w) { weight = w; }
+        void setHeight(int h) { height = h; }
+        void setBalance(BalanceFactor b) { balance = b; }
     };
 
     Node* root;
@@ -45,6 +64,9 @@ private:
     char charAt(Node* node, int index) const;
     string toString(Node* node) const;
     void destroy(Node*& node);
+
+    //helper funcitions:
+    BalanceFactor findBalanceFactor() const;
 
 public:
     Rope();
