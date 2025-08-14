@@ -7,6 +7,43 @@
 /*
     Student can define other list data structures here
 */
+template <typename T>
+class DoublyLinkedList {    
+    // TODO: may provide some attributes
+private:
+    Node<T>* head;
+    Node<T>* tail;
+    int count;
+
+public:
+    DoublyLinkedList();
+    ~DoublyLinkedList();
+
+    int size() const;
+    void insertAtTail(T data);
+    void deleteAt(int index);
+
+    string toString(string (*convert2str)(T&) = 0) const;
+
+    //get
+    Node<T>* getHead() const;
+    Node<T>* getTail() const;
+
+    //set
+    void setHead(Node<T>* node);
+    void setTail(Node<T>* node);
+    void removeTail();
+
+    template <typename T>
+    class Node {
+    public:
+        Node* prev;
+        Node* next;
+        T data;
+
+        Node(T d) : data(d), prev(nullptr), next(nullptr) {};
+    };
+};
 
 /**
  * Rope (AVL-based, fixed leaf chunk size = 8)
@@ -127,6 +164,9 @@ public:
     };
 
     // TODO: may provide some attributes
+    DoublyLinkedList<Action> historyActions;
+    DoublyLinkedList<Action> undoActions;
+    DoublyLinkedList<int> indexJump;
 
 public:
     HistoryManager();
