@@ -7,12 +7,23 @@
 /*
     Student can define other list data structures here
 */
+
+template<typename T>
+    class NodeDDL {
+    public:
+        NodeDDL* prev;
+        NodeDDL* next;
+        T data;
+
+        NodeDDL(T d);;
+    };
+    
 template <typename T>
 class DoublyLinkedList {    
     // TODO: may provide some attributes
 private:
-    Node<T>* head;
-    Node<T>* tail;
+    NodeDDL<T>* head;
+    NodeDDL<T>* tail;
     int count;
 
 public:
@@ -26,23 +37,13 @@ public:
     string toString(string (*convert2str)(T&) = 0) const;
 
     //get
-    Node<T>* getHead() const;
-    Node<T>* getTail() const;
+    NodeDDL<T>* getHead() const;
+    NodeDDL<T>* getTail() const;
 
     //set
-    void setHead(Node<T>* node);
-    void setTail(Node<T>* node);
+    void setHead(NodeDDL<T>* node);
+    void setTail(NodeDDL<T>* node);
     void removeTail();
-
-    template <typename T>
-    class Node {
-    public:
-        Node* prev;
-        Node* next;
-        T data;
-
-        Node(T d) : data(d), prev(nullptr), next(nullptr) {};
-    };
 };
 
 /**
@@ -55,6 +56,7 @@ private:
     class Node {
     public:
         enum BalanceFactor { LH = 1, EH = 0, RH = -1 };
+        friend class Rope;
 
     private:
         Node* left;
@@ -69,7 +71,6 @@ private:
         bool isLeaf() const;
     
     public:
-        friend class Rope;
 
         // Getters for private members
         Node* getLeft() const { return left; }
@@ -103,7 +104,7 @@ private:
     void destroy(Node*& node);
 
     //helper funcitions:
-    BalanceFactor findBalanceFactor() const;
+    void collectSubstring(Node* node, int start, int len, std::string& out) const;
 
 public:
     Rope();
@@ -148,6 +149,7 @@ public:
     void undo();
     void redo();
     void printHistory() const;
+    void clear();
 #ifdef TESTING
     friend class TestHelper;
 #endif
@@ -166,7 +168,6 @@ public:
     // TODO: may provide some attributes
     DoublyLinkedList<Action> historyActions;
     DoublyLinkedList<Action> undoActions;
-    DoublyLinkedList<int> indexJump;
 
 public:
     HistoryManager();
@@ -175,6 +176,7 @@ public:
     bool canUndo() const;
     bool canRedo() const;
     void printHistory() const;
+
 #ifdef TESTING
     friend class TestHelper;
 #endif
